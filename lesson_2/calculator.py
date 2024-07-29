@@ -1,54 +1,68 @@
-# Ask the user for the first number.
-# Ask the user for the second number.
-# Ask the user for an operation to perform.
-# Perform the operation on the two numbers.
-# Print the result to the terminal.
+import json
+
+with open('calculator_messages.json', 'r') as file:
+    MESSAGES = json.load(file)
+
+def messages(message, lang):
+    return MESSAGES[lang][message]
 
 def prompt(message):
-    print(f'==> {message}')
+    print(f'==> {messages(message, language)}')
 
 def invalid_number(number_str):
     try:
-        int(number_str)
+        float(number_str)
     except ValueError:
         return True
     return False
 
+language = input("Select language: en/nl\n")
+while language not in ['en', 'nl']:
+    language = input("Please choose a valid language: ")
+
+prompt('welcome')
 
 
-prompt('Welcome to Calculator!')
+while True:
 
-prompt("What's the first number?")
-number1 = input()
-
-while invalid_number(number1):
-    prompt("Hmm... that doesn't look like a valid number.")
+    prompt('first_number')
     number1 = input()
 
-prompt("What's the second number?")
-number2 = input()
+    while invalid_number(number1):
+        prompt('invalid_number')
+        number1 = input()
+    number1 = float(number1)
 
-while invalid_number(number2):
-    prompt("Hmm... that doesn't look like a valid number.")
+    prompt('second_number')
     number2 = input()
 
-prompt("""What operation would you like to perform?
-1) Add 2) Subtract 3) Multiply 4) Divide""")
+    while invalid_number(number2):
+        prompt('invalid_number')
+        number2 = input()
+    number2 = float(number2)
 
-operation = input()
+    prompt('operation_type')
 
-while operation not in ['1', '2', '3', '4']:
-    prompt('You must choose 1, 2, 3, or 4')
     operation = input()
 
-match operation:
-    case '1':
-        output = int(number1) + int(number2)
-    case '2':
-        output = int(number1) - int(number2)
-    case '3':
-        output = int(number1) * int(number2)
-    case '4':
-        output = int(number1) / int(number2)
+    while operation not in ['1', '2', '3', '4']:
+        prompt('invalid_operation')
+        operation = input()
 
-prompt(f'The result is {output}')
+    match operation:
+        case '1':
+            output = number1 + number2
+        case '2':
+            output = number1 - number2
+        case '3':
+            output = number1 * number2
+        case '4':
+            output = number1 / number2
+
+    print(f"{MESSAGES[language]['result']} {output}")
+    prompt('new_calculation')
+    new_calculation = input()
+    
+    if new_calculation != MESSAGES[language]['yes']:
+        break
+    

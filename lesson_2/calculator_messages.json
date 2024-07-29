@@ -1,0 +1,27 @@
+{
+    "en": { 
+            "welcome": "Welcome to Calculator",
+            "invalid_number": "Hmm... that doesn't look like a valid number",
+            "first_number": "What's the first number?",
+            "second_number": "What's the second number?",
+            "operation_type": "What operation would you like to perform?\n1) Add 2) Subtract 3) Multiply 4) Divide",
+            "invalid_operation": "You must choose 1, 2, 3, or 4",
+            "result": "The result is",
+            "new_calculation": "Do you want to perform another calculation?\ntype 'yes' to continue or any other key to quit:",
+            "yes": "yes"
+    },
+    "nl": {
+        "welcome": "Welkom in de Rekenmachine",
+            "invalid_number": "Hmm... Dat lijkt geen geldig getal te zijn",
+            "first_number": "Wat is het eerste getal?",
+            "second_number": "Wat is het tweede getal?",
+            "operation_type": "Wat voor berekening wil je graag doen?\n1) Optelling 2) Aftrekking 3) Vermenigvuldiging 4) Deling",
+            "invalid_operation": "Je moet 1, 2, 3 of 4 kiezen.",
+            "result": "Het resultaat is",
+            "new_calculation": "Wil je nog een berekening doen?\ntyp 'ja' om door te gaan of typ iets anders om te stoppen:",
+            "yes": "ja"
+    }
+        
+    
+    
+}
