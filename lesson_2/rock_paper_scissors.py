@@ -8,13 +8,17 @@ def prompt(message):
 def display_winner():
     prompt(f'You chose {choice}, computer chose {computer_choice}')
 
-    if ((choice == 'rock' and computer_choice == 'scissors') or
-        (choice == 'paper' and computer_choice == 'rock') or
-        (choice == 'scissors' and computer_choice) == 'paper'):
+    if ((choice == 'rock' and computer_choice in ['scissors', 'lizard']) or
+        (choice == 'paper' and computer_choice in ['rock', 'spock']) or
+        (choice == 'scissors' and computer_choice in ['paper', 'lizard']) or
+        (choice == 'lizard' and computer_choice in ['paper', 'spock']) or
+        (choice == 'spock' and computer_choice in ['scissors', 'rock'])):
         prompt('You win!')
-    elif ((choice == 'rock' and computer_choice == 'paper') or
-        (choice == 'paper' and computer_choice == 'scissors') or
-        (choice == 'scissors' and computer_choice) == 'rock'):
+    elif ((choice == 'rock' and computer_choice in ['paper', 'spock']) or
+        (choice == 'paper' and computer_choice in ['scissors', 'lizard']) or
+        (choice == 'scissors' and computer_choice in ['rock', 'spock']) or
+        (choice == 'lizard' and computer_choice in ['rock', 'scissors']) or
+        (choice == 'spock' and computer_choice in ['lizard', 'paper'])):
         prompt('Computer wins!')
     else:
         prompt("It's a tie!")
