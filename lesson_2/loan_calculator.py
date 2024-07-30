@@ -12,6 +12,16 @@ def year_to_month(year):
 def validate_number(num):
     try:
         number = float(num)
+        if number <= 0:
+            raise ValueError
+    except ValueError:
+        return True
+
+    return False
+
+def validate_zero_hundred(num):
+    try:
+        number = float(num)
         if number < 0:
             raise ValueError
     except ValueError:
@@ -20,16 +30,19 @@ def validate_number(num):
     return False
 
 def validate_percentage(percentage):
-    while validate_number(percentage):
+    while validate_zero_hundred(percentage):
         prompt('Please enter a valid percentage between 0 and 100')
         percentage = input()
 
     return not (float(percentage) >= 0 and float(percentage) <= 100)
 
 def calculate_payment(amount, rate, duration):
+    if rate == 0:
+        return amount / duration
     return amount * (rate / (1 - (1 + rate) ** (-duration)))
 
 def get_loan_amount():
+    prompt('Please enter the total loan amount')
     amount = input()
 
     while validate_number(amount):
@@ -39,6 +52,7 @@ def get_loan_amount():
     return float(amount)
 
 def get_loan_duration():
+    prompt('Please enter the loan duration in years.')
     duration = input()
 
     while validate_number(duration):
@@ -48,6 +62,8 @@ def get_loan_duration():
     return year_to_month(duration)
 
 def get_apr():
+    prompt('Please enter the APR as percentage. Enter 0 if no-interest loan')
+    prompt('for example, enter 2 for 2%, or 5.5 for 5.5%')
     rate = input()
 
     while validate_percentage(rate):
@@ -56,35 +72,29 @@ def get_apr():
 
     return monthly_rate_calculator(float(rate))
 
-prompt('Welcome to The Loan Calculator!')
-
-while True:
-    prompt('Please enter the total loan amount')
-    loan_amount = get_loan_amount()
-
-    prompt('Please enter the APR as percentage. Enter 0 if no-interest loan')
-    prompt('for example, enter 2 for 2%, or 5.5 for 5.5%')
-
-    apr = get_apr()
-
-    prompt('Please enter the loan duration in years.')
-    loan_duration = get_loan_duration()
-
-    monthly_payment = calculate_payment(
-        loan_amount,
-        apr,
-        loan_duration
-    )
-
+def display_results():
     prompt(f'Your monthly payment is ${monthly_payment:.2f}')
-    prompt('Do you want to do another calculation? y/n')
 
+def calculate_again():
+    prompt('Do you want to do another calculation? y/n')
     answer = input().lower()
 
     while answer not in ['y', 'n']:
         prompt('Please answer with "y" or "n"')
         answer = input().lower()
-    if answer == 'n':
-        break
+    return answer
 
+def display_welcome_prompt():
+    prompt('Welcome to The Loan Calculator!')
+
+while True:
     os.system('clear')
+    display_welcome_prompt()
+    loan_amount = get_loan_amount()
+    apr = get_apr()
+    loan_duration = get_loan_duration()
+    monthly_payment = calculate_payment(loan_amount, apr, loan_duration)
+    display_results()
+    calculate_again_answer = calculate_again()
+    if calculate_again_answer == 'n':
+        break
