@@ -1,5 +1,6 @@
 import json
 import os
+import math
 
 with open('calculator_messages.json', 'r') as file:
     MESSAGES = json.load(file)
@@ -13,7 +14,7 @@ def prompt(message):
 def invalid_number(number_str):
     try:
         float(number_str)
-        if number_str == 'nan':
+        if math.isnan(number_str):
             raise ValueError
     except ValueError:
         return True
