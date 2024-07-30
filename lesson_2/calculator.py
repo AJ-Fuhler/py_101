@@ -40,15 +40,22 @@ def get_operation():
 
     return oper
 
+def get_choice():
+    choice = input()
+    while choice not in ['1', '2']:
+        prompt('invalid_choice')
+        choice = input()
+    return choice
+
 def catch_zero_division(num, oper):
     while num == 0 and oper == '4':
         prompt('zero_division')
-        choice = input('1 for new number or 2 for new operation: ')
-        while choice not in ['1', '2']:
-            choice = input('That is not a valid choice, select 1 or 2')
+        choice = get_choice()
         if choice == '1':
+            prompt('second_number')
             num = get_number()
         else:
+            prompt('operation_type')
             oper = get_operation()
 
     return (num, oper)
