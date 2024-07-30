@@ -6,6 +6,7 @@
             "second_number": "What's the second number?",
             "operation_type": "What operation would you like to perform?\n1) Add 2) Subtract 3) Multiply 4) Divide",
             "invalid_operation": "You must choose 1, 2, 3, or 4",
+            "zero_division": "Can't divide by zero, choose another number or another operation",
             "result": "The result is",
             "new_calculation": "Do you want to perform another calculation?\ntype 'yes' to continue or any other key to quit:",
             "yes": "yes"
@@ -17,6 +18,7 @@
             "second_number": "Wat is het tweede getal?",
             "operation_type": "Wat voor berekening wil je graag doen?\n1) Optelling 2) Aftrekking 3) Vermenigvuldiging 4) Deling",
             "invalid_operation": "Je moet 1, 2, 3 of 4 kiezen.",
+            "zero_division": "kan niet delen door nul, kies een ander getal of een ander soort berekening",
             "result": "Het resultaat is",
             "new_calculation": "Wil je nog een berekening doen?\ntyp 'ja' om door te gaan of typ iets anders om te stoppen:",
             "yes": "ja"
