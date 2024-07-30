@@ -1,4 +1,5 @@
 import os
+import math
 
 def prompt(message):
     print(f'==> {message}')
@@ -12,7 +13,7 @@ def year_to_month(year):
 def validate_number(num):
     try:
         number = float(num)
-        if number <= 0:
+        if number <= 0 or math.isnan(number):
             raise ValueError
     except ValueError:
         return True
@@ -22,7 +23,7 @@ def validate_number(num):
 def validate_zero_greater(num):
     try:
         number = float(num)
-        if number < 0:
+        if number < 0 or math.isnan(number):
             raise ValueError
     except ValueError:
         return True
@@ -72,8 +73,8 @@ def get_apr():
 
     return monthly_rate_calculator(float(rate))
 
-def display_results():
-    prompt(f'Your monthly payment is ${monthly_payment:.2f}')
+def display_results(payment_amount):
+    prompt(f'Your monthly payment is ${payment_amount:.2f}')
 
 def calculate_again():
     prompt('Do you want to do another calculation? y/n')
@@ -94,7 +95,7 @@ while True:
     apr = get_apr()
     loan_duration = get_loan_duration()
     monthly_payment = calculate_payment(loan_amount, apr, loan_duration)
-    display_results()
+    display_results(monthly_payment)
     calculate_again_answer = calculate_again()
     if calculate_again_answer == 'n':
         break
