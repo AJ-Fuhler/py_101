@@ -4,7 +4,7 @@ import math
 def prompt(message):
     print(f'==> {message}')
 
-def monthly_rate_calculator(rate):
+def calculate_monthly_rate(rate):
     return (float(rate) / 100) / 12
 
 def year_to_month(year):
@@ -71,7 +71,7 @@ def get_apr():
         prompt('Please enter a valid percentage between 0 and 100')
         rate = input()
 
-    return monthly_rate_calculator(float(rate))
+    return calculate_monthly_rate(float(rate))
 
 def display_results(payment_amount):
     prompt(f'Your monthly payment is ${payment_amount:.2f}')
