@@ -40,19 +40,24 @@ def get_operation():
 
     return oper
 
-def catch_zero_division():
-    global operation, number2
-    while number2 == 0 and operation == '4':
+def catch_zero_division(num, oper):
+    while num == 0 and oper == '4':
         prompt('zero_division')
         choice = input('1 for new number or 2 for new operation: ')
         while choice not in ['1', '2']:
             choice = input('That is not a valid choice, select 1 or 2')
         if choice == '1':
-            number2 = get_number()
+            num = get_number()
         else:
-            operation = get_operation()
+            oper = get_operation()
+
+    return (num, oper)
+
 
 def perform_operation(num1, num2, oper):
+    if num2 == 0 and oper == '4':
+        num2, oper = catch_zero_division(num2, oper)
+
     match oper:
         case '1':
             result = num1 + num2
@@ -62,13 +67,14 @@ def perform_operation(num1, num2, oper):
             result = num1 * num2
         case '4':
             result = num1 / num2
+
     return result
 
-
 language = get_language()
-prompt('welcome')
 
 while True:
+    os.system('clear')
+    prompt('welcome')
     prompt('first_number')
     number1 = get_number()
 
@@ -77,7 +83,6 @@ while True:
 
     prompt('operation_type')
     operation = get_operation()
-    catch_zero_division()
     output = perform_operation(number1, number2, operation)
 
     print(f"{MESSAGES[language]['result']} {output}")
@@ -85,4 +90,3 @@ while True:
     new_calculation = input().lower()
     if new_calculation != MESSAGES[language]['yes']:
         break
-    os.system('clear')
