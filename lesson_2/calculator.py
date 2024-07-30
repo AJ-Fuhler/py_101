@@ -58,7 +58,7 @@ def catch_zero_division(num, oper):
             prompt('operation_type')
             oper = get_operation()
 
-    return (num, oper)
+    return num, oper
 
 
 def perform_operation(num1, num2, oper):

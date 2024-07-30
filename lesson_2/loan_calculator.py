@@ -19,7 +19,7 @@ def validate_number(num):
 
     return False
 
-def validate_zero_hundred(num):
+def validate_zero_greater(num):
     try:
         number = float(num)
         if number < 0:
@@ -30,7 +30,7 @@ def validate_zero_hundred(num):
     return False
 
 def validate_percentage(percentage):
-    while validate_zero_hundred(percentage):
+    while validate_zero_greater(percentage):
         prompt('Please enter a valid percentage between 0 and 100')
         percentage = input()
 
