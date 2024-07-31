@@ -1,19 +1,21 @@
 import os
 import math
 
+MONTHS_PER_YEAR = 12
+
 def prompt(message):
     print(f'==> {message}')
 
 def calculate_monthly_rate(rate):
-    return (float(rate) / 100) / 12
+    return (float(rate) / 100) / MONTHS_PER_YEAR
 
 def year_to_month(year):
-    return float(year) * 12
+    return float(year) * MONTHS_PER_YEAR
 
 def validate_number(num):
     try:
         number = float(num)
-        if number <= 0 or math.isnan(number):
+        if number <= 0 or math.isnan(number) or math.isinf(number):
             raise ValueError
     except ValueError:
         return True
@@ -23,19 +25,12 @@ def validate_number(num):
 def validate_zero_greater(num):
     try:
         number = float(num)
-        if number < 0 or math.isnan(number):
+        if number < 0 or math.isnan(number) or math.isinf(number):
             raise ValueError
     except ValueError:
         return True
 
     return False
-
-def validate_percentage(percentage):
-    while validate_zero_greater(percentage):
-        prompt('Please enter a valid percentage between 0 and 100')
-        percentage = input()
-
-    return not (float(percentage) >= 0 and float(percentage) <= 100)
 
 def calculate_payment(amount, rate, duration):
     if rate == 0:
@@ -67,9 +62,13 @@ def get_apr():
     prompt('for example, enter 2 for 2%, or 5.5 for 5.5%')
     rate = input()
 
-    while validate_percentage(rate):
+    while validate_zero_greater(rate):
         prompt('Please enter a valid percentage between 0 and 100')
         rate = input()
+    while not (float(rate) >= 0 and float(rate) <= 100):
+        prompt('Please enter a valid percentage between 0 and 100')
+        rate = input()
+
 
     return calculate_monthly_rate(float(rate))
 
