@@ -22,10 +22,11 @@ def validate_number(num):
 
     return False
 
-def validate_zero_greater(num):
+def validate_zero_hundred(num):
     try:
         number = float(num)
-        if number < 0 or math.isnan(number) or math.isinf(number):
+        if (number < 0 or number > 100 or
+            math.isnan(number) or math.isinf(number)):
             raise ValueError
     except ValueError:
         return True
@@ -62,13 +63,9 @@ def get_apr():
     prompt('for example, enter 2 for 2%, or 5.5 for 5.5%')
     rate = input()
 
-    while validate_zero_greater(rate):
+    while validate_zero_hundred(rate):
         prompt('Please enter a valid percentage between 0 and 100')
         rate = input()
-    while not (float(rate) >= 0 and float(rate) <= 100):
-        prompt('Please enter a valid percentage between 0 and 100')
-        rate = input()
-
 
     return calculate_monthly_rate(float(rate))
 
