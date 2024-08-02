@@ -16,19 +16,31 @@ WINNING_COMBOS = {
 def prompt(message):
     print(f"==> {message}")
 
+def display_welcome_prompt():
+    prompt('Welcome to Rock Paper Scissors Lizard Spock!\n')
 
-def display_winner(end_score):
-    print()
-    prompt("And that's three!\n")
-    time.sleep(1)
-    if end_score['p_wins'] == 3:
-        prompt('You are the GRAND WINNER!\n')
-        time.sleep(1)
-    else:
-        prompt('Computer is the GRAND WINNER!\n')
-        time.sleep(1)
-        prompt('Better luck next time...\n')
-        time.sleep(1)
+def display_game_rules():
+    prompt(
+    '''Game Rules:
+
+    Scissors cuts paper, paper covers rock, rock crushes lizard, lizard poisons
+    Spock, Spock smashes scissors, scissors decapitates lizard, lizard eats
+    paper, paper disproves Spock, Spock vaporizes rock, and rock crushes
+    scissors. Whoever throws the winning signal wins! If both of you make the
+    same signal, it's a tie.
+
+    Tip: if you're feeling lazy, you can type: 
+    'r' for rock
+    'p' for paper
+    's' for scissors 
+    'l' for lizard
+    'sp' for spock
+
+    This is a Best of Five. Whoever reaches 3 wins first, wins the match!
+    ''')
+
+def display_score(player_score, pc_score):
+    prompt(f'You {player_score} | {pc_score} Computer')
 
 def get_choice():
     prompt(f'Choose one: {", ".join(VALID_CHOICES[:5])}')
@@ -58,49 +70,9 @@ def convert_shortened_choice(player_choice):
 
     return player_choice
 
-
-def display_game_rules():
-    prompt(
-    '''Game Rules:
-
-    Scissors cuts paper, paper covers rock, rock crushes lizard, lizard poisons
-    Spock, Spock smashes scissors, scissors decapitates lizard, lizard eats
-    paper, paper disproves Spock, Spock vaporizes rock, and rock crushes
-    scissors. Whoever throws the winning signal wins! If both of you make the
-    same signal, it's a tie.
-
-    Tip: if you're feeling lazy, you can type: 
-    'r' for rock
-    'p' for paper
-    's' for scissors 
-    'l' for lizard
-    'sp' for spock
-
-    This is a Best of Five. Whoever reaches 3 wins first, wins the match!
-    ''')
-
-def display_welcome_prompt():
-    prompt('Welcome to Rock Paper Scissors Lizard Spock!\n')
-
-def play_again():
-    prompt('Do you want to play again (y/n)?')
-    answer = input().lower()
-
-    while True:
-        if answer in ['y', 'n']:
-            break
-
-        prompt('Please enter "y" or "n".')
-        answer = input().lower()
-
-    return answer
-
-def display_score(player_score, pc_score):
-    prompt(f'You {player_score} | {pc_score} Computer')
-
-def reset_score(score_dict):
-    for outcome in score_dict:
-        score_dict[outcome] = 0
+def display_choices(player_choice, pc_choice):
+    prompt(f'You chose {player_choice}, computer chose {pc_choice}\n')
+    time.sleep(1)
 
 def display_round_winner(player_choice, pc_choice):
     if pc_choice in WINNING_COMBOS[[player_choice]]:
@@ -119,10 +91,35 @@ def update_score(player_choice, pc_choice, current_score):
         current_score['ties'] += 1
     time.sleep(2)
 
-def display_choices(player_choice, pc_choice):
-    prompt(f'You chose {player_choice}, computer chose {pc_choice}\n')
+def display_winner(end_score):
+    print()
+    prompt("And that's three!\n")
     time.sleep(1)
+    if end_score['p_wins'] == 3:
+        prompt('You are the GRAND WINNER!\n')
+        time.sleep(1)
+    else:
+        prompt('Computer is the GRAND WINNER!\n')
+        time.sleep(1)
+        prompt('Better luck next time...\n')
+        time.sleep(1)
 
+def play_again():
+    prompt('Do you want to play again (y/n)?')
+    answer = input().lower()
+
+    while True:
+        if answer in ['y', 'n']:
+            break
+
+        prompt('Please enter "y" or "n".')
+        answer = input().lower()
+
+    return answer
+
+def reset_score(score_dict):
+    for outcome in score_dict:
+        score_dict[outcome] = 0
 
 def main():
     score = { #MAKE THIS WORK INSTEAD OF USING global player_score etc..
