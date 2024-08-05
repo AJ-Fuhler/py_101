@@ -83,6 +83,7 @@ def display_choices(player_choice, pc_choice):
 
 def determine_round_winner(player_choice, pc_choice):
     if pc_choice in WINNING_COMBOS[player_choice]:
+<<<<<<< HEAD
         return 'p_wins'
     elif player_choice in WINNING_COMBOS[pc_choice]:
         return 'c_wins'
@@ -95,6 +96,11 @@ def display_round_winner(player_choice, pc_choice):
         prompt('You win this round!')
     elif outcome == 'c_wins':
         prompt('Computer wins this round!')
+=======
+        prompt('You won this round!')
+    elif player_choice in WINNING_COMBOS[pc_choice]:
+        prompt('Computer won this round!')
+>>>>>>> 4016e23 (ensured final score is displayed in rps. also worked on practice problems)
     else:
         prompt('You tied this round!')
 
