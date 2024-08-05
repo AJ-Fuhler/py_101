@@ -76,9 +76,9 @@ def display_choices(player_choice, pc_choice):
 
 def display_round_winner(player_choice, pc_choice):
     if pc_choice in WINNING_COMBOS[player_choice]:
-        prompt('You win this round!')
+        prompt('You won this round!')
     elif player_choice in WINNING_COMBOS[pc_choice]:
-        prompt('You win this round!')
+        prompt('Computer won this round!')
     else:
         prompt('You tied this round!')
 
@@ -140,6 +140,10 @@ def main():
         update_score(choice, computer_choice, score)
 
         if score['p_wins'] >= 3 or score['c_wins'] >= 3:
+            os.system('clear')
+            display_welcome_prompt()
+            display_game_rules()
+            display_score(score['p_wins'], score['c_wins'])
             display_winner(score)
             play_again_answer = play_again()
             if play_again_answer[0] == 'y':
