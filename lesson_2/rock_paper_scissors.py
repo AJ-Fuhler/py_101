@@ -2,8 +2,15 @@ import random
 import os
 import time
 
-VALID_CHOICES = [
-    'rock', 'paper', 'scissors', 'lizard', 'spock', 'r', 'p', 's', 'l', 'sp']
+CHOICE_ABBREVIATIONS = {
+    'rock': ['r'],
+    'paper': ['p'],
+    'scissors': ['s', 'sc'],
+    'lizard': ['l'],
+    'spock': ['sp'],
+}
+
+VALID_CHOICES = CHOICE_ABBREVIATIONS.items()
 
 WINNING_COMBOS = {
     'rock':     ['scissors', 'lizard'],
@@ -43,15 +50,15 @@ def display_score(player_score, pc_score):
     prompt(f'You {player_score} | {pc_score} Computer')
 
 def get_choice():
-    prompt(f'Choose one: {", ".join(VALID_CHOICES[:5])}')
+    prompt(f'Choose one: {", ".join(CHOICE_ABBREVIATIONS)}')
     player_choice = input().lower()
 
-    while player_choice not in VALID_CHOICES:
+    while player_choice not in VALID_CHOICES: # FIX THIS CODE, VALID_CHOICES is a list of tuples.
         prompt("That's not a valid choice")
         player_choice = input().lower()
 
-    if player_choice in VALID_CHOICES[5:]:
-        player_choice = convert_shortened_choice(player_choice)
+    # if player_choice in VALID_CHOICES:
+     #   player_choice = convert_shortened_choice(player_choice)
 
     return player_choice
 
@@ -74,21 +81,26 @@ def display_choices(player_choice, pc_choice):
     prompt(f'You chose {player_choice}, computer chose {pc_choice}\n')
     time.sleep(1)
 
-def display_round_winner(player_choice, pc_choice):
+def determine_round_winner(player_choice, pc_choice):
     if pc_choice in WINNING_COMBOS[player_choice]:
-        prompt('You won this round!')
+        return 'p_wins'
     elif player_choice in WINNING_COMBOS[pc_choice]:
-        prompt('Computer won this round!')
+        return 'c_wins'
+    else:
+        return 'ties'
+
+def display_round_winner(player_choice, pc_choice):
+    outcome = determine_round_winner(player_choice, pc_choice)
+    if outcome == 'p_wins':
+        prompt('You win this round!')
+    elif outcome == 'c_wins':
+        prompt('Computer wins this round!')
     else:
         prompt('You tied this round!')
 
 def update_score(player_choice, pc_choice, current_score):
-    if pc_choice in WINNING_COMBOS[player_choice]:
-        current_score['p_wins'] += 1
-    elif player_choice in WINNING_COMBOS[pc_choice]:
-        current_score['c_wins'] += 1
-    else:
-        current_score['ties'] += 1
+    outcome = determine_round_winner(player_choice, pc_choice)
+    current_score[outcome] += 1
     time.sleep(2)
 
 def display_winner(end_score):
@@ -134,7 +146,7 @@ def main():
         display_game_rules()
         display_score(score['p_wins'], score['c_wins'])
         choice = get_choice()
-        computer_choice = random.choice(VALID_CHOICES[:5])
+        computer_choice = random.choice(CHOICE_ABBREVIATIONS)
         display_choices(choice, computer_choice)
         display_round_winner(choice, computer_choice)
         update_score(choice, computer_choice, score)
