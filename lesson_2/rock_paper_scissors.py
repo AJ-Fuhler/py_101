@@ -10,7 +10,11 @@ CHOICE_ABBREVIATIONS = {
     'spock': ['sp'],
 }
 
-VALID_CHOICES = CHOICE_ABBREVIATIONS.items()
+VALID_CHOICES =  [
+    item for key, value in CHOICE_ABBREVIATIONS.items()
+         for item in [key] + value]
+
+COMPUTER_CHOICES = list(CHOICE_ABBREVIATIONS.keys())
 
 WINNING_COMBOS = {
     'rock':     ['scissors', 'lizard'],
@@ -49,33 +53,21 @@ def display_game_rules():
 def display_score(player_score, pc_score):
     prompt(f'You {player_score} | {pc_score} Computer')
 
+def get_full_choice(abbreviation):
+    for key, values in CHOICE_ABBREVIATIONS.items():
+        if abbreviation in values:
+            return key
+    return abbreviation
+
 def get_choice():
     prompt(f'Choose one: {", ".join(CHOICE_ABBREVIATIONS)}')
-    player_choice = input().lower()
+    player_choice = input().strip().lower()
 
-    while player_choice not in VALID_CHOICES: # FIX THIS CODE, VALID_CHOICES is a list of tuples.
+    while player_choice not in VALID_CHOICES:
         prompt("That's not a valid choice")
-        player_choice = input().lower()
+        player_choice = input().strip().lower()
 
-    # if player_choice in VALID_CHOICES:
-     #   player_choice = convert_shortened_choice(player_choice)
-
-    return player_choice
-
-def convert_shortened_choice(player_choice):
-    match player_choice:
-        case 'r':
-            player_choice = 'rock'
-        case 'p':
-            player_choice = 'paper'
-        case 's':
-            player_choice = 'scissors'
-        case 'l':
-            player_choice = 'lizard'
-        case 'sp':
-            player_choice = 'spock'
-
-    return player_choice
+    return get_full_choice(player_choice)
 
 def display_choices(player_choice, pc_choice):
     prompt(f'You chose {player_choice}, computer chose {pc_choice}\n')
@@ -83,12 +75,11 @@ def display_choices(player_choice, pc_choice):
 
 def determine_round_winner(player_choice, pc_choice):
     if pc_choice in WINNING_COMBOS[player_choice]:
-<<<<<<< HEAD
         return 'p_wins'
-    elif player_choice in WINNING_COMBOS[pc_choice]:
+    if player_choice in WINNING_COMBOS[pc_choice]:
         return 'c_wins'
-    else:
-        return 'ties'
+
+    return 'ties'
 
 def display_round_winner(player_choice, pc_choice):
     outcome = determine_round_winner(player_choice, pc_choice)
@@ -96,11 +87,6 @@ def display_round_winner(player_choice, pc_choice):
         prompt('You win this round!')
     elif outcome == 'c_wins':
         prompt('Computer wins this round!')
-=======
-        prompt('You won this round!')
-    elif player_choice in WINNING_COMBOS[pc_choice]:
-        prompt('Computer won this round!')
->>>>>>> 4016e23 (ensured final score is displayed in rps. also worked on practice problems)
     else:
         prompt('You tied this round!')
 
@@ -122,25 +108,33 @@ def display_winner(end_score):
         prompt('Better luck next time...\n')
         time.sleep(1)
 
-def play_again():
+def ask_play_again():
     prompt('Do you want to play again (y/n)?')
-    answer = input().lower()
+    answer = input().strip().lower()
 
     while True:
         if answer in ['y', 'n']:
             break
 
         prompt('Please enter "y" or "n".')
-        answer = input().lower()
+        answer = input().strip().lower()
 
-    return answer
+    if answer == 'y':
+        return True
+
+    return False
 
 def reset_score(score_dict):
     for outcome in score_dict:
         score_dict[outcome] = 0
 
+def match_winner(score_dict):
+    if score_dict['p_wins'] >= 3 or score_dict['c_wins'] >= 3:
+        return True
+    return False
+
 def main():
-    score = { #MAKE THIS WORK INSTEAD OF USING global player_score etc..
+    score = {
         "p_wins": 0,
         "c_wins": 0,
         "ties": 0,
@@ -152,19 +146,19 @@ def main():
         display_game_rules()
         display_score(score['p_wins'], score['c_wins'])
         choice = get_choice()
-        computer_choice = random.choice(CHOICE_ABBREVIATIONS)
+        computer_choice = random.choice(COMPUTER_CHOICES)
         display_choices(choice, computer_choice)
         display_round_winner(choice, computer_choice)
         update_score(choice, computer_choice, score)
 
-        if score['p_wins'] >= 3 or score['c_wins'] >= 3:
+        if match_winner(score):
             os.system('clear')
             display_welcome_prompt()
             display_game_rules()
             display_score(score['p_wins'], score['c_wins'])
             display_winner(score)
-            play_again_answer = play_again()
-            if play_again_answer[0] == 'y':
+            play_again_answer = ask_play_again()
+            if play_again_answer:
                 reset_score(score)
             else:
                 break
